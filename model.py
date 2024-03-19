@@ -10,10 +10,13 @@ class FaceClassifier(nn.Module):
         super().__init__()
         self.layers = nn.Sequential(
             nn.Conv2d(in_channels = 3, out_channels = 32, kernel_size = 5),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size = 5, stride = 2),
             nn.Conv2d(in_channels = 32, out_channels = 16, kernel_size = 5),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size = 5, stride = 4),
             nn.Conv2d(in_channels = 16, out_channels = 8, kernel_size = 5),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size = 5, stride = 4),
             nn.Flatten(),
             nn.Linear(288, 16),
@@ -45,12 +48,15 @@ class FaceClassifier(nn.Module):
         correct = 0
         total = 0
         for i, data in enumerate(testDataLoader, 0):
-            total += 1
+            
             inputs, labels = data
+            total += len(labels)
 
             outputs = self(inputs)
-            if torch.equal(torch.argmax(outputs), torch.argmax(labels)):
-                correct += 1
+            equal_tensor = torch.eq(torch.argmax(outputs, dim = 1), torch.argmax(labels, dim = 1))
+            for bool_val in equal_tensor:
+                if bool_val:
+                    correct += 1
         print(f'test accuracy: {(correct / total):.3f}')
 
     def save(self, path):
