@@ -98,10 +98,10 @@ def grid_hyperparameter_search(device, train_dataloader, test_dataloader):
     products = itertools.product(conv_layers, starting_channels, channel_multiplier, kernel_size, poolKernel, poolStrides, hiddenNodes)
     best_accuracy = 0
     for configuration in products:
-        print(f"Best: model-parameters-{configuration[0]}-{configuration[1]}-{configuration[2]}-{configuration[3]}-{configuration[4]}-{configuration[5][0]}-{configuration[6]}")
+        print(f"Current: model-parameters-{configuration[0]}-{configuration[1]}-{configuration[2]}-{configuration[3]}-{configuration[4]}-{configuration[5][0]}-{configuration[6]}")
 
         model = FaceClassifier(configuration[0], configuration[1], configuration[2], configuration[3], configuration[4], configuration[5], configuration[6]).to(device)
-        model.train(2, train_dataloader)
+        model.train(20, train_dataloader)
         model.save(f"model/model-parameters-{configuration[0]}-{configuration[1]}-{configuration[2]}-{configuration[3]}-{configuration[4]}-{configuration[5][0]}-{configuration[6]}.pt")
         accuracy = model.test(test_dataloader)
         if accuracy > best_accuracy:
