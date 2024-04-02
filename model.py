@@ -55,9 +55,11 @@ class FaceClassifier(nn.Module):
         return self.layers(x)
 
 
-    def train(self, epochs, trainDataLoader):
+    def train(self, epochs, trainDataLoader, testDataloader = None):
+        cummulative_losses_training = []
+        cummulative_losses_test = []
         for epoch in range(epochs):
-            cumulative_loss = 0.0
+            cumulative_loss_training = 0.0
             for i, data in enumerate(trainDataLoader, 0):
                 inputs, labels = data
 
@@ -66,8 +68,25 @@ class FaceClassifier(nn.Module):
                 loss = self.lossFunction(outputs, labels)
                 loss.backward()
                 self.optimizer.step()
-                cumulative_loss += loss.item()
-            print(f'{epoch + 1} loss: {cumulative_loss:.3f}')
+                cumulative_loss_training += loss.item()
+            print(f'{epoch + 1} loss: {cumulative_loss_training:.3f}')
+            cummulative_losses_training.append(cumulative_loss_training)
+            
+            if testDataloader is not None:
+                cumulative_loss_test = 0.0
+                for i, data_test in enumerate(testDataloader, 0):
+                    inputs_test, labels_test = data_test
+                    outputs_test = self(inputs_test)
+                    outputs_test = self(inputs_test)
+                    loss_test = self.lossFunction(outputs_test, labels_test)
+                    #print(f'test loss: {loss.item():.3f}')
+                    #accuracy = self.test(testDataloader)
+                    cumulative_loss_test += loss_test.item()
+                cummulative_losses_test.append(cumulative_loss_test)
+            else:
+                continue
+            
+        return cummulative_losses_training, cummulative_losses_test if testDataloader is not None else cummulative_losses_training
 
 
     def test(self, testDataLoader):
@@ -115,7 +134,18 @@ class FaceClassifier(nn.Module):
         sns.heatmap(matrix_confusion, square=True, annot=True, cmap='Blues', cbar=True, xticklabels=['Fake', 'Real'], yticklabels=['Fake', 'Real'])
         plt.xlabel('Predicted label')
         plt.ylabel('True label')
+        plt.title('Confusion matrix')
         plt.savefig('confusion_matrix.png')
+        
+        
+    def plot_loss(self, cummulative_losses_training, cummulative_losses_test):
+        sns.lineplot(x=range(len(cummulative_losses_training)), y=cummulative_losses_training, label='Training loss')
+        sns.lineplot(x=range(len(cummulative_losses_test)), y=cummulative_losses_test, label='Test loss')
+        plt.title('Training and test loss over ' + str(len(cummulative_losses_training)) + ' epochs')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.legend()
+        plt.savefig('loss.png')
 
 
     def save(self, path):
