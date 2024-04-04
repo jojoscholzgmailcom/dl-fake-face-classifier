@@ -11,7 +11,8 @@ if __name__ == "__main__":
     if torch.cuda.is_available()
     else "cpu"
     )
-    print(f"Using {device} device")
+    print(f"Using {device} device")  
+    
     model = FaceClassifier().to(device)
     print(model)
 

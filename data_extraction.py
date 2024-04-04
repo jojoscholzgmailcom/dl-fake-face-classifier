@@ -28,4 +28,4 @@ class FakeRealFaceDataset():
 if __name__ == "__main__":
     dataset = FakeRealFaceDataset("train.csv", "real_vs_fake/real-vs-fake")
     image, label = dataset.__getitem__(0)
-    print(image, label)
+    print(image, label) 

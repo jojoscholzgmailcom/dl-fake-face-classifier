@@ -4,7 +4,11 @@ from torch import nn
 import torch.optim as optim
 from data_extraction import FakeRealFaceDataset
 from torch.utils.data import DataLoader
-
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+ 
 class FaceClassifier(nn.Module):
 
     def __init__(self, conv_layers: int, starting_channels: int, channel_multiplier: float, kernelSize: int, poolKernel: int, poolStrides: list, hiddenNodes: int, image_size = 256):
@@ -46,12 +50,16 @@ class FaceClassifier(nn.Module):
         self.lossFunction = nn.BCELoss()
         self.optimizer = optim.Adam(self.parameters())
 
+
     def forward(self, x):
         return self.layers(x)
 
-    def train(self, epochs, trainDataLoader):
+
+    def train(self, epochs, trainDataLoader, testDataloader = None):
+        cummulative_losses_training = []
+        cummulative_losses_test = []
         for epoch in range(epochs):
-            cumulative_loss = 0.0
+            cumulative_loss_training = 0.0
             for i, data in enumerate(trainDataLoader, 0):
                 inputs, labels = data
 
@@ -60,8 +68,26 @@ class FaceClassifier(nn.Module):
                 loss = self.lossFunction(outputs, labels)
                 loss.backward()
                 self.optimizer.step()
-                cumulative_loss += loss.item()
-            print(f'{epoch + 1} loss: {cumulative_loss:.3f}')
+                cumulative_loss_training += loss.item()
+            print(f'{epoch + 1} loss: {cumulative_loss_training:.3f}')
+            cummulative_losses_training.append(cumulative_loss_training)
+            
+            if testDataloader is not None:
+                cumulative_loss_test = 0.0
+                for i, data_test in enumerate(testDataloader, 0):
+                    inputs_test, labels_test = data_test
+                    outputs_test = self(inputs_test)
+                    outputs_test = self(inputs_test)
+                    loss_test = self.lossFunction(outputs_test, labels_test)
+                    #print(f'test loss: {loss.item():.3f}')
+                    #accuracy = self.test(testDataloader)
+                    cumulative_loss_test += loss_test.item()
+                cummulative_losses_test.append(cumulative_loss_test)
+            else:
+                continue
+            
+        return cummulative_losses_training, cummulative_losses_test if testDataloader is not None else cummulative_losses_training
+
 
     def test(self, testDataLoader):
         correct = 0
@@ -79,9 +105,52 @@ class FaceClassifier(nn.Module):
         accuracy = (correct / total)
         print(f'test accuracy: {accuracy:.3f}')
         return accuracy
+    
+    
+    def evaluate(self, evaluationDataLoader):
+        
+        true_labels = []
+        predicted_labels = []
+        
+        for i, data in enumerate(evaluationDataLoader, 0):
+            
+            inputs, labels = data
+
+            outputs = self(inputs)
+            
+            predicted_labels.extend(torch.argmax(outputs, dim = 1).tolist())
+            true_labels.extend(torch.argmax(labels, dim = 1).tolist())
+        
+        matrix_confusion = confusion_matrix(true_labels, predicted_labels)
+        classification_results = classification_report(true_labels, predicted_labels)
+        
+        accuracy = classification_results.split("\n")[-3].split()[-2]
+        precision, recall, f1_score, support = classification_results.split("\n")[-2].split()[2:]
+                
+        return accuracy, precision, recall, f1_score, support, matrix_confusion
+        
+        
+    def plot_confusion_matrix(self, matrix_confusion):
+        sns.heatmap(matrix_confusion, square=True, annot=True, cmap='Blues', cbar=True, xticklabels=['Fake', 'Real'], yticklabels=['Fake', 'Real'])
+        plt.xlabel('Predicted label')
+        plt.ylabel('True label')
+        plt.title('Confusion matrix')
+        plt.savefig('confusion_matrix.png')
+        
+        
+    def plot_loss(self, cummulative_losses_training, cummulative_losses_test):
+        sns.lineplot(x=range(len(cummulative_losses_training)), y=cummulative_losses_training, label='Training loss')
+        sns.lineplot(x=range(len(cummulative_losses_test)), y=cummulative_losses_test, label='Test loss')
+        plt.title('Training and test loss over ' + str(len(cummulative_losses_training)) + ' epochs')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.legend()
+        plt.savefig('loss.png')
+
 
     def save(self, path):
         torch.save(self.state_dict(), path)
+
 
     def load(self, path):
         self.load_state_dict(torch.load(path))
@@ -111,6 +180,7 @@ def grid_hyperparameter_search(device, train_dataloader, test_dataloader):
         if accuracy > best_accuracy:
             best_accuracy = accuracy
             print(f"Best: model-parameters-{configuration[0]}-{configuration[1]}-{configuration[2]}-{configuration[3]}-{configuration[4]}-{configuration[5][0]}-{configuration[6]}   acc: {accuracy}")
+
 
 if __name__ == "__main__":
     
