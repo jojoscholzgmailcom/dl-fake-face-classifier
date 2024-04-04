@@ -89,15 +89,19 @@ class FaceClassifier(nn.Module):
 
 def grid_hyperparameter_search(device, train_dataloader, test_dataloader):
     conv_layers = [3, 4]
-    starting_channels = [32, 64]
+    starting_channels = [32, 16]
     channel_multiplier = [0.5]
     kernel_size = [3, 5]
     poolKernel = [3, 5]
-    poolStrides = [[2,2,2,2], [4,4,4,4]]
+    poolStrides = [[2,2,2,2]]
     hiddenNodes = [32]
     products = itertools.product(conv_layers, starting_channels, channel_multiplier, kernel_size, poolKernel, poolStrides, hiddenNodes)
     best_accuracy = 0
+    iteration = 0
     for configuration in products:
+        iteration += 1
+        if iteration <= 8 or configuration[5][0] == 4:
+            continue
         print(f"Current: model-parameters-{configuration[0]}-{configuration[1]}-{configuration[2]}-{configuration[3]}-{configuration[4]}-{configuration[5][0]}-{configuration[6]}")
 
         model = FaceClassifier(configuration[0], configuration[1], configuration[2], configuration[3], configuration[4], configuration[5], configuration[6]).to(device)
@@ -107,7 +111,6 @@ def grid_hyperparameter_search(device, train_dataloader, test_dataloader):
         if accuracy > best_accuracy:
             best_accuracy = accuracy
             print(f"Best: model-parameters-{configuration[0]}-{configuration[1]}-{configuration[2]}-{configuration[3]}-{configuration[4]}-{configuration[5][0]}-{configuration[6]}   acc: {accuracy}")
-        break
 
 if __name__ == "__main__":
     
