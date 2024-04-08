@@ -78,7 +78,7 @@ class FaceClassifier(nn.Module):
             
             cumulative_loss_test = 0.0
             test_batches = 0
-            for i, data_test in enumerate(testDataloader, 0):
+            for i, data_test in enumerate(testDataLoader, 0):
                 test_batches += 1
                 inputs_test, labels_test = data_test
                 outputs_test = self(inputs_test)
@@ -86,13 +86,13 @@ class FaceClassifier(nn.Module):
                 cumulative_loss_test += loss_test.item()
             cummulative_losses_test.append(cumulative_loss_test)
             mean_losses_test.append(cumulative_loss_test/test_batches)
-            print(f'{epoch + 1} train sum loss: {cumulative_loss_training:.3f} test sum loss: {cumulative_loss_test:.3f} train mean loss: {mean_loss_training:.3f} test mean loss: {mean_loss_test:.3f}')
+            print(f'{epoch + 1} train sum loss: {cumulative_loss_training:.3f} test sum loss: {cumulative_loss_test:.3f} train mean loss: {(cumulative_loss_training/batches):.3f} test mean loss: {(cumulative_loss_test/test_batches):.3f}')
 
-            if mean_loss_test.index(min(mean_loss_test)) == (len(mean_loss_test) - 1):
+            if mean_losses_test.index(min(mean_losses_test)) == (len(mean_losses_test) - 1):
                 print(f'Best epoch so far: {epoch + 1}')
                 self.save("model/best-model.pt")
 
-            if self.should_stop(mean_loss_test, mean_loss_training):
+            if self.should_stop(mean_losses_test, mean_losses_training):
                 return cummulative_losses_training, cummulative_losses_test, mean_losses_training, mean_losses_training
         return cummulative_losses_training, cummulative_losses_test, mean_losses_training, mean_losses_training
 
