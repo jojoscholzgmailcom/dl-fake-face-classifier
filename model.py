@@ -54,6 +54,58 @@ class FaceClassifier(nn.Module):
     def forward(self, x):
         return self.layers(x)
 
+    def early_stopping_train(self, max_epochs, trainDataLoader, testDataLoader):
+        cummulative_losses_training = []
+        mean_losses_training = []
+        cummulative_losses_test = []
+        mean_losses_test = []
+        for epoch in range(max_epochs):
+            cumulative_loss_training = 0.0
+            batches = 0
+            for i, data in enumerate(trainDataLoader, 0):
+                batches += 1
+                inputs, labels = data
+
+                self.optimizer.zero_grad()
+                outputs = self(inputs)
+                loss = self.lossFunction(outputs, labels)
+                loss.backward()
+                self.optimizer.step()
+                cumulative_loss_training += loss.item()
+            
+            cummulative_losses_training.append(cumulative_loss_training)
+            mean_losses_training.append(cumulative_loss_training/batches)
+            
+            cumulative_loss_test = 0.0
+            test_batches = 0
+            for i, data_test in enumerate(testDataloader, 0):
+                test_batches += 1
+                inputs_test, labels_test = data_test
+                outputs_test = self(inputs_test)
+                loss_test = self.lossFunction(outputs_test, labels_test)
+                cumulative_loss_test += loss_test.item()
+            cummulative_losses_test.append(cumulative_loss_test)
+            mean_losses_test.append(cumulative_loss_test/test_batches)
+            print(f'{epoch + 1} train sum loss: {cumulative_loss_training:.3f} test sum loss: {cumulative_loss_test:.3f} train mean loss: {mean_loss_training:.3f} test mean loss: {mean_loss_test:.3f}')
+
+            if mean_loss_test.index(min(mean_loss_test)) == (len(mean_loss_test) - 1):
+                print(f'Best epoch so far: {epoch + 1}')
+                self.save("model/best-model.pt")
+
+            if self.should_stop(mean_loss_test, mean_loss_training):
+                return cummulative_losses_training, cummulative_losses_test, mean_losses_training, mean_losses_training
+        return cummulative_losses_training, cummulative_losses_test, mean_losses_training, mean_losses_training
+
+    def should_stop(self, mean_loss_test, mean_loss_training):
+        last_element = len(mean_loss_test) - 1
+        if last_element == 0 or mean_loss_test[last_element] <= mean_loss_test[last_element - 1]:
+            self.test_loss_streak = 0
+            return False
+
+        if self.test_loss_streak < 3:
+            self.test_loss_streak += 1
+            return False
+        return True
 
     def train(self, epochs, trainDataLoader, testDataloader = None):
         cummulative_losses_training = []
@@ -190,19 +242,21 @@ if __name__ == "__main__":
     else "cpu"
     )
     print(f"Using {device} device")
-    #model = FaceClassifier().to(device)
+    model = FaceClassifier(3,32,0.5,5,5,[2,2,2,2],32).to(device)
     #print(model)
 
     training_data = FakeRealFaceDataset("train.csv", "real_vs_fake/real-vs-fake", device)
     train_dataloader = DataLoader(training_data, batch_size=128, shuffle=True)
 
-    #model.train(20, train_dataloader)
-
-    #model.save("model-parameters.pt")
-
     test_data = FakeRealFaceDataset("test.csv", "real_vs_fake/real-vs-fake", device)
     test_dataloader = DataLoader(test_data, batch_size=128, shuffle=True)
 
-    grid_hyperparameter_search(device, train_dataloader, test_dataloader)
+    print(model.early_stopping_train(60, train_dataloader, test_dataloader))
+
+    model.save("model/last-model.pt")
+
+    
+
+    #grid_hyperparameter_search(device, train_dataloader, test_dataloader)
     
     #model.test(test_dataloader)
