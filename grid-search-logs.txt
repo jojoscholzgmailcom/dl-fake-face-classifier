@@ -1,0 +1,484 @@
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-3-32-0.5-3-3-2-32
+1 loss: 424.779
+2 loss: 314.924
+3 loss: 259.847
+4 loss: 219.601
+5 loss: 195.730
+6 loss: 176.660
+7 loss: 160.017
+8 loss: 147.142
+9 loss: 137.005
+10 loss: 129.617
+11 loss: 122.019
+12 loss: 112.347
+13 loss: 107.542
+14 loss: 102.995
+15 loss: 94.398
+16 loss: 90.101
+17 loss: 88.338
+18 loss: 83.255
+19 loss: 81.123
+20 loss: 74.141
+test accuracy: 0.935
+Best: model-parameters-3-32-0.5-3-3-2-32   acc: 0.93465
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-3-32-0.5-3-3-4-32
+1 loss: 462.451
+2 loss: 379.687
+3 loss: 344.337
+4 loss: 319.334
+5 loss: 299.080
+6 loss: 284.129
+7 loss: 269.912
+8 loss: 259.267
+9 loss: 249.856
+10 loss: 240.046
+11 loss: 231.138
+12 loss: 226.463
+13 loss: 219.998
+14 loss: 214.905
+15 loss: 209.808
+16 loss: 206.189
+17 loss: 202.640
+18 loss: 200.762
+19 loss: 195.627
+20 loss: 192.662
+test accuracy: 0.892
+Best: model-parameters-3-32-0.5-3-3-4-32   acc: 0.8924
+Current: model-parameters-3-32-0.5-3-5-2-32
+1 loss: 423.241
+2 loss: 313.596
+3 loss: 263.674
+4 loss: 231.939
+5 loss: 202.416
+6 loss: 183.043
+7 loss: 167.172
+8 loss: 149.084
+9 loss: 141.157
+10 loss: 129.532
+11 loss: 121.562
+12 loss: 111.939
+13 loss: 106.110
+14 loss: 98.387
+15 loss: 92.976
+16 loss: 92.115
+17 loss: 84.459
+18 loss: 78.829
+19 loss: 79.411
+20 loss: 72.335
+test accuracy: 0.919
+Best: model-parameters-3-32-0.5-3-5-2-32   acc: 0.91855
+Current: model-parameters-3-32-0.5-3-5-4-32
+1 loss: 480.778
+2 loss: 403.196
+Traceback (most recent call last):
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 136, in <module>
+    grid_hyperparameter_search(device, train_dataloader, test_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 108, in grid_hyperparameter_search
+    model.train(20, train_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 55, in train
+    for i, data in enumerate(trainDataLoader, 0):
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\utils\data\dataloader.py", line 630, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\utils\data\dataloader.py", line 674, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\utils\data\_utils\fetch.py", line 51, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\data_extraction.py", line 22, in __getitem__
+    image = self.transforms(read_image(img_path)).to(self.device)
+                            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torchvision\io\image.py", line 259, in read_image
+    return decode_image(data, mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torchvision\io\image.py", line 234, in decode_image
+    if not torch.jit.is_scripting() and not torch.jit.is_tracing():
+                                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jojos\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_trace.py", line 1117, in is_tracing
+    return torch._C._is_tracing()
+           ^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-3-32-0.5-3-3-2-32
+Traceback (most recent call last):
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 136, in <module>
+    grid_hyperparameter_search(device, train_dataloader, test_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 108, in grid_hyperparameter_search
+    model.train(20, train_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 63, in train
+    cumulative_loss += loss.item()
+                       ^^^^^^^^^^^
+KeyboardInterrupt
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-3-32-0.5-5-3-2-32
+1 loss: 417.929
+2 loss: 294.894
+3 loss: 229.220
+4 loss: 183.455
+5 loss: 152.711
+6 loss: 131.264
+7 loss: 113.319
+8 loss: 100.473
+9 loss: 88.669
+10 loss: 80.086
+11 loss: 70.769
+12 loss: 60.159
+13 loss: 56.718
+14 loss: 51.957
+15 loss: 48.039
+16 loss: 45.113
+17 loss: 38.654
+18 loss: 34.663
+19 loss: 36.747
+20 loss: 33.363
+test accuracy: 0.934
+Best: model-parameters-3-32-0.5-5-3-2-32   acc: 0.934
+Current: model-parameters-3-32-0.5-5-5-2-32
+1 loss: 435.608
+2 loss: 315.319
+3 loss: 254.472
+4 loss: 216.799
+5 loss: 191.577
+6 loss: 173.194
+7 loss: 156.579
+8 loss: 146.403
+9 loss: 132.997
+10 loss: 124.899
+11 loss: 117.442
+12 loss: 111.476
+13 loss: 106.168
+14 loss: 97.116
+15 loss: 93.299
+16 loss: 87.080
+17 loss: 82.367
+18 loss: 75.059
+19 loss: 75.538
+20 loss: 70.534
+test accuracy: 0.946
+Best: model-parameters-3-32-0.5-5-5-2-32   acc: 0.94605
+Current: model-parameters-3-64-0.5-3-3-2-32
+1 loss: 477.603
+2 loss: 363.199
+3 loss: 287.782
+4 loss: 242.737
+5 loss: 213.282
+6 loss: 194.023
+7 loss: 172.434
+8 loss: 160.431
+Traceback (most recent call last):
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 136, in <module>
+    grid_hyperparameter_search(device, train_dataloader, test_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 108, in grid_hyperparameter_search
+    model.train(20, train_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 63, in train
+    cumulative_loss += loss.item()
+                       ^^^^^^^^^^^
+KeyboardInterrupt
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-3-48-0.5-3-3-2-32
+1 loss: 431.260
+Traceback (most recent call last):
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 136, in <module>
+    grid_hyperparameter_search(device, train_dataloader, test_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 108, in grid_hyperparameter_search
+    model.train(20, train_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 63, in train
+    cumulative_loss += loss.item()
+                       ^^^^^^^^^^^
+KeyboardInterrupt
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-3-16-0.5-3-3-2-32
+1 loss: 446.552
+2 loss: 378.117
+3 loss: 338.461
+4 loss: 309.293
+5 loss: 285.085
+6 loss: 268.244
+7 loss: 252.409
+8 loss: 237.230
+9 loss: 226.506
+10 loss: 218.368
+11 loss: 207.784
+12 loss: 200.129
+13 loss: 193.290
+14 loss: 189.146
+15 loss: 184.308
+16 loss: 178.216
+17 loss: 171.129
+18 loss: 169.807
+19 loss: 163.747
+20 loss: 160.538
+test accuracy: 0.899
+Best: model-parameters-3-16-0.5-3-3-2-32   acc: 0.89875
+Current: model-parameters-3-16-0.5-3-5-2-32
+1 loss: 542.077
+2 loss: 542.029
+3 loss: 542.058
+4 loss: 542.074
+5 loss: 542.057
+6 loss: 542.061
+7 loss: 542.071
+8 loss: 542.065
+9 loss: 542.057
+10 loss: 542.061
+11 loss: 542.071
+12 loss: 542.067
+13 loss: 542.056
+14 loss: 542.062
+15 loss: 542.055
+16 loss: 542.068
+17 loss: 542.053
+18 loss: 542.067
+19 loss: 542.069
+20 loss: 542.061
+test accuracy: 0.500
+Current: model-parameters-3-16-0.5-5-3-2-32
+1 loss: 441.515
+2 loss: 353.046
+3 loss: 310.380
+4 loss: 282.476
+5 loss: 263.050
+6 loss: 245.730
+7 loss: 226.873
+8 loss: 211.388
+9 loss: 195.567
+10 loss: 184.558
+11 loss: 175.696
+12 loss: 165.510
+13 loss: 158.927
+14 loss: 152.009
+15 loss: 146.141
+16 loss: 140.801
+17 loss: 134.798
+18 loss: 128.496
+19 loss: 125.419
+20 loss: 123.265
+test accuracy: 0.908
+Best: model-parameters-3-16-0.5-5-3-2-32   acc: 0.9083
+Current: model-parameters-3-16-0.5-5-5-2-32
+1 loss: 433.227
+2 loss: 330.828
+3 loss: 273.794
+4 loss: 239.654
+5 loss: 221.774
+6 loss: 204.316
+7 loss: 193.467
+8 loss: 184.345
+9 loss: 175.259
+10 loss: 169.224
+11 loss: 160.683
+12 loss: 155.923
+13 loss: 149.714
+14 loss: 143.073
+15 loss: 140.021
+16 loss: 133.940
+17 loss: 131.823
+18 loss: 127.220
+19 loss: 118.971
+20 loss: 120.911
+test accuracy: 0.920
+Best: model-parameters-3-16-0.5-5-5-2-32   acc: 0.92035
+Current: model-parameters-4-32-0.5-3-3-2-32
+Traceback (most recent call last):
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 136, in <module>
+    grid_hyperparameter_search(device, train_dataloader, test_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 108, in grid_hyperparameter_search
+    model.train(20, train_dataloader)
+  File "C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier\model.py", line 63, in train
+    cumulative_loss += loss.item()
+                       ^^^^^^^^^^^
+KeyboardInterrupt
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier>
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier> python .\model.py
+Using cuda device
+Current: model-parameters-4-32-0.5-3-3-2-32
+1 loss: 473.767
+2 loss: 346.082
+3 loss: 288.251
+4 loss: 249.741
+5 loss: 224.488
+6 loss: 206.842
+7 loss: 190.392
+8 loss: 178.506
+9 loss: 167.323
+10 loss: 157.851
+11 loss: 151.693
+12 loss: 145.523
+13 loss: 139.829
+14 loss: 133.823
+15 loss: 130.311
+16 loss: 127.732
+17 loss: 124.141
+18 loss: 117.777
+19 loss: 117.972
+20 loss: 112.644
+test accuracy: 0.925
+Best: model-parameters-4-32-0.5-3-3-2-32   acc: 0.92485
+Current: model-parameters-4-32-0.5-3-5-2-32
+1 loss: 494.180
+2 loss: 422.255
+3 loss: 367.667
+4 loss: 336.272
+5 loss: 314.866
+6 loss: 293.463
+7 loss: 278.596
+8 loss: 263.275
+9 loss: 252.385
+10 loss: 241.481
+11 loss: 229.794
+12 loss: 222.550
+13 loss: 217.334
+14 loss: 209.748
+15 loss: 204.023
+16 loss: 198.482
+17 loss: 197.841
+18 loss: 190.954
+19 loss: 186.426
+20 loss: 184.861
+test accuracy: 0.895
+Current: model-parameters-4-32-0.5-5-3-2-32
+1 loss: 542.147
+2 loss: 449.842
+3 loss: 332.616
+4 loss: 280.139
+5 loss: 239.129
+6 loss: 215.344
+7 loss: 193.915
+8 loss: 179.080
+9 loss: 167.325
+10 loss: 157.138
+11 loss: 144.444
+12 loss: 137.669
+13 loss: 131.189
+14 loss: 124.344
+15 loss: 118.834
+16 loss: 115.344
+17 loss: 110.905
+18 loss: 109.017
+19 loss: 104.630
+20 loss: 99.903
+test accuracy: 0.928
+Best: model-parameters-4-32-0.5-5-3-2-32   acc: 0.9281
+Current: model-parameters-4-32-0.5-5-5-2-32
+1 loss: 483.047
+2 loss: 371.646
+3 loss: 305.224
+4 loss: 268.731
+5 loss: 241.987
+6 loss: 226.378
+7 loss: 212.347
+8 loss: 203.993
+9 loss: 192.528
+10 loss: 184.914
+11 loss: 178.258
+12 loss: 176.676
+13 loss: 171.301
+14 loss: 164.806
+15 loss: 159.739
+16 loss: 158.449
+17 loss: 157.349
+18 loss: 149.592
+19 loss: 148.135
+20 loss: 147.503
+test accuracy: 0.919
+Current: model-parameters-4-16-0.5-3-3-2-32
+1 loss: 473.496
+2 loss: 415.599
+3 loss: 386.810
+4 loss: 362.887
+5 loss: 350.096
+6 loss: 334.462
+7 loss: 321.936
+8 loss: 311.686
+9 loss: 302.841
+10 loss: 290.281
+11 loss: 286.773
+12 loss: 277.814
+13 loss: 270.149
+14 loss: 266.090
+15 loss: 262.326
+16 loss: 257.957
+17 loss: 253.035
+18 loss: 250.949
+19 loss: 245.703
+20 loss: 242.415
+test accuracy: 0.847
+Current: model-parameters-4-16-0.5-3-5-2-32
+1 loss: 516.201
+2 loss: 470.297
+3 loss: 419.122
+4 loss: 391.876
+5 loss: 377.517
+6 loss: 364.409
+7 loss: 353.358
+8 loss: 344.482
+9 loss: 336.139
+10 loss: 328.598
+11 loss: 324.211
+12 loss: 316.252
+13 loss: 312.662
+14 loss: 308.122
+15 loss: 304.325
+16 loss: 300.007
+17 loss: 297.714
+18 loss: 294.599
+19 loss: 289.020
+20 loss: 288.620
+test accuracy: 0.811
+Current: model-parameters-4-16-0.5-5-3-2-32
+1 loss: 463.044
+2 loss: 409.758
+3 loss: 388.124
+4 loss: 373.788
+5 loss: 359.028
+6 loss: 342.427
+7 loss: 328.495
+8 loss: 312.609
+9 loss: 299.406
+10 loss: 286.644
+11 loss: 277.130
+12 loss: 267.850
+13 loss: 259.758
+14 loss: 253.199
+15 loss: 244.863
+16 loss: 236.238
+17 loss: 233.015
+18 loss: 227.537
+19 loss: 222.267
+20 loss: 218.864
+test accuracy: 0.876
+Current: model-parameters-4-16-0.5-5-5-2-32
+1 loss: 502.520
+2 loss: 423.296
+3 loss: 387.931
+4 loss: 362.766
+5 loss: 342.635
+6 loss: 331.335
+7 loss: 321.887
+8 loss: 311.776
+9 loss: 304.339
+10 loss: 297.260
+11 loss: 291.317
+12 loss: 287.107
+13 loss: 279.771
+14 loss: 278.193
+15 loss: 272.222
+16 loss: 271.994
+17 loss: 266.169
+18 loss: 263.215
+19 loss: 259.012
+20 loss: 257.044
+test accuracy: 0.847
+PS C:\Users\jojos\OneDrive\Dokumente\Universität\Master\Year1\Deep Learning\Repository\dl-fake-face-classifier>
