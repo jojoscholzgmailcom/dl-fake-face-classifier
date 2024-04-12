@@ -189,16 +189,6 @@ class FaceClassifier(nn.Module):
         plt.title('Confusion matrix')
         plt.savefig('confusion_matrix.png')
         
-        
-    def plot_loss(self, cummulative_losses_training, cummulative_losses_test):
-        sns.lineplot(x=range(len(cummulative_losses_training)), y=cummulative_losses_training, label='Training loss')
-        sns.lineplot(x=range(len(cummulative_losses_test)), y=cummulative_losses_test, label='Test loss')
-        plt.title('Training and test loss over ' + str(len(cummulative_losses_training)) + ' epochs')
-        plt.xlabel('Epoch')
-        plt.ylabel('Loss')
-        plt.legend()
-        plt.savefig('loss.png')
-
 
     def save(self, path):
         torch.save(self.state_dict(), path)
